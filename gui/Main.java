@@ -1,11 +1,19 @@
 package gui;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import processing.Coach;
+import processing.FileManager;
 
 public class Main extends Application{
 
@@ -19,7 +27,10 @@ public class Main extends Application{
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+		
 		launch(args);
+		
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package processing;
 
 import testing.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import org.opencv.core.Core;
@@ -27,38 +28,33 @@ public class CoOccurrenceMatrix {
 		this.glmc = glmc;
 	}
 
-	public double getEnergy() {
-		return energy;
-	}
 
-	public void setEnergy(double energy) {
-		this.energy = energy;
+	public double[] getFeatures(ArrayList<Integer> al){
+		
+		double[] res = new double[2];
+		
+		int i=0;
+		while(i<2){
+			int idx = al.get(i);
+			
+			switch(idx){
+			case 0:
+				res[i] = contraste;
+				break;
+			case 1:
+				res[i] = energy;
+				break;
+			case 2:
+				res[i] = entropy;
+				break;
+			case 3:
+				res[i] = homogeneidade;
+				break;
+			}
+			i++;
+		}
+		return res;
 	}
-
-	public double getEntropy() {
-		return entropy;
-	}
-
-	public void setEntropy(double entropy) {
-		this.entropy = entropy;
-	}
-
-	public double getContraste() {
-		return contraste;
-	}
-
-	public void setContraste(double contraste) {
-		this.contraste = contraste;
-	}
-
-	public double getHomogeneidade() {
-		return homogeneidade;
-	}
-
-	public void setHomogeneidade(double homogeneidade) {
-		this.homogeneidade = homogeneidade;
-	}
-
 	
 	/**
 	 * 
@@ -154,7 +150,7 @@ public class CoOccurrenceMatrix {
 
 		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 		String s = "f";
-		double[][] x = retrieveData(s);
+		//double[][] x = retrieveData(s);
 		//double[][] mean = new double[4][];
 		//mean[0] = Coach.coach(x);
 //		
@@ -174,12 +170,12 @@ public class CoOccurrenceMatrix {
 //		
 		//System.out.println("a media: " + mean[0] + ":" + mean[1]);
 		
-		double[][] mean = Input_buf.readFile();
-		int i=0;
-		while(i<20){
-			System.out.print(Classify.classify(x[i], mean) + " ");
-			i++;
-		}
+//		double[][] mean = Input_buf.readFile();
+//		int i=0;
+//		while(i<20){
+//			System.out.print(Classify.classify(x[i], mean) + " ");
+//			i++;
+//		}
 //		int i=0, j=0;
 //		while(i<mean.length){
 //			
@@ -203,23 +199,23 @@ public class CoOccurrenceMatrix {
 //		}
 	}
 	
-	public static double[][] retrieveData(String s){
-		double[][] res = new double[20][4];
-
-		for(int i=0;i<20;i++){
-			System.out.print(s+i+" ");
-			File file = new File("/Users/chendehua/Downloads/rois/" + s + i + ".png");
-			if(file.exists() == false) System.out.println("file does not exist");
-			Mat image = Imgcodecs.imread(file.getPath(), Imgcodecs.IMREAD_GRAYSCALE);
-			
-			CoOccurrenceMatrix com = new CoOccurrenceMatrix(1, image);
-			res[i][0] = com.getContraste();
-			res[i][1] = com.getEnergy();
-			res[i][2] = com.getHomogeneidade();
-			res[i][3] = com.getEntropy();
-		}
-		System.out.println();
-		return res;
-	}
+//	public static double[][] retrieveData(String s){
+//		double[][] res = new double[20][4];
+//
+//		for(int i=0;i<20;i++){
+//			System.out.print(s+i+" ");
+//			File file = new File("/Users/chendehua/Downloads/rois/" + s + i + ".png");
+//			if(file.exists() == false) System.out.println("file does not exist");
+//			Mat image = Imgcodecs.imread(file.getPath(), Imgcodecs.IMREAD_GRAYSCALE);
+//			
+//			CoOccurrenceMatrix com = new CoOccurrenceMatrix(1, image);
+////			res[i][0] = com.getContraste();
+////			res[i][1] = com.getEnergy();
+////			res[i][2] = com.getHomogeneidade();
+////			res[i][3] = com.getEntropy();
+//		}
+//		System.out.println();
+//		return res;
+//	}
 	
 }
