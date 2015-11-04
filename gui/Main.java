@@ -1,10 +1,7 @@
 package gui;
 
-import java.io.File;
-import java.util.ArrayList;
 
 import org.opencv.core.Core;
-import org.opencv.core.Mat;
 
 import javafx.application.Application;
 import javafx.geometry.Orientation;
@@ -12,13 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import processing.Coach;
-import processing.FileManager;
-import processing.Test;
 
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.stat.correlation.Covariance;
 
 public class Main extends Application{
 
@@ -35,34 +26,13 @@ public class Main extends Application{
 		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 		
 		launch(args);
-//		new Main().testCommonsMath();
 	}
 	
-	public void testCommonsMath(){
-//		Covariance a = new Covariance(new double[][]{{1,5,0},{10,3,2}});
-//		RealMatrix matrix = a.getCovarianceMatrix();
-//		matrix = MatrixUtils.inverse(matrix);
-//		double[][] m = matrix.getData();
-//		int i=0, j=0;
-//		while(i < m.length){
-//			while(j < m[0].length){
-//				
-//				System.out.print(m[i][j]+" ");
-//				j++;
-//			}
-//			System.out.println();
-//			j=0;
-//			i++;
-//		}
-		
-		//System.out.println(Test.Mahalanobis(new double[]{2,1}, new double[]{0.5873,0.3978}, new double[][]{{0.0861,0.0406},{0.0406,0.1301}}));
-	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		
-		testCommonsMath();
 		
 		messagePane 					= new MessagePane();
 		imagePane1 						= new ImagePane();

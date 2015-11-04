@@ -20,13 +20,9 @@ public class CoOccurrenceMatrix {
 	
 	private int[][] glmc;
 	
-	public int[][] getGlmc() {
-		return glmc;
-	}
+	public int[][] getGlmc() { return glmc;}
 
-	public void setGlmc(int[][] glmc) {
-		this.glmc = glmc;
-	}
+	public void setGlmc(int[][] glmc) { this.glmc = glmc;}
 
 
 	public double[] getFeatures(ArrayList<Integer> al){
@@ -142,80 +138,5 @@ public class CoOccurrenceMatrix {
 			i++;
 		}
 	}
-	
-	public static void main(String[] args){
-
-//		File file = new File("./");
-//		System.out.println(file.getAbsolutePath());
-
-		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
-		String s = "f";
-		//double[][] x = retrieveData(s);
-		//double[][] mean = new double[4][];
-		//mean[0] = Coach.coach(x);
-//		
-//		s = "e";
-//		x = retrieveData(s);
-//		mean[1] = Coach.coach(x);
-//		
-//		s = "f";
-//		x = retrieveData(s);
-//		mean[2] = Coach.coach(x);
-//		
-//		s = "g";
-//		x = retrieveData(s);
-//		mean[3] = Coach.coach(x);
-//		
-//		Input_buf.saveFile(mean);
-//		
-		//System.out.println("a media: " + mean[0] + ":" + mean[1]);
-		
-//		double[][] mean = Input_buf.readFile();
-//		int i=0;
-//		while(i<20){
-//			System.out.print(Classify.classify(x[i], mean) + " ");
-//			i++;
-//		}
-//		int i=0, j=0;
-//		while(i<mean.length){
-//			
-//			while(j<mean[0].length){
-//				System.out.print(mean[i][j] + "\t");
-//				j++;
-//			}
-//			System.out.println();
-//			j=0;
-//			i++;
-//		}
-		
-//		s = "e";
-//		double[][] y = retrieveData(s);
-//		
-//		int i=0;
-//		while(i<20){
-//			System.out.println("distancia euclidiana: " + Test.Euclideana(y[i], mean));
-//			
-//			i++;
-//		}
-	}
-	
-//	public static double[][] retrieveData(String s){
-//		double[][] res = new double[20][4];
-//
-//		for(int i=0;i<20;i++){
-//			System.out.print(s+i+" ");
-//			File file = new File("/Users/chendehua/Downloads/rois/" + s + i + ".png");
-//			if(file.exists() == false) System.out.println("file does not exist");
-//			Mat image = Imgcodecs.imread(file.getPath(), Imgcodecs.IMREAD_GRAYSCALE);
-//			
-//			CoOccurrenceMatrix com = new CoOccurrenceMatrix(1, image);
-////			res[i][0] = com.getContraste();
-////			res[i][1] = com.getEnergy();
-////			res[i][2] = com.getHomogeneidade();
-////			res[i][3] = com.getEntropy();
-//		}
-//		System.out.println();
-//		return res;
-//	}
 	
 }

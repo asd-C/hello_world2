@@ -25,15 +25,17 @@ import processing.Test;
 public class FeaturesSelectorAndFunctions extends HBox {
 	
 	// selecao de caracteristicas
-	public static ArrayList<Integer> selectedFeatures;
+	public static ArrayList<Integer> selectedFeatures = new ArrayList<Integer>();
+	public static int angle = -1;
+
+	
+	
+	
 	private final Integer CONTRASTE = new Integer(0), 
 			ENERGY = new Integer(1), 
 			ENTROPY = new Integer(2), 
 			HOMOGENEIDADE = new Integer(3);  
 	
-
-	
-	public static int angle;
 	private final int[] ANGLE = {1,2,4,8,16};
 	
 	
@@ -41,13 +43,23 @@ public class FeaturesSelectorAndFunctions extends HBox {
 	private final Insets insets_vbox = new Insets(10,10,10,10);
 	private final int spacing_vbox = 10;
 	
+	public static boolean isFeaturesAndAngleReady(){
+		if(angle != -1){
+			if(selectedFeatures.size() == 2){
+				return true;
+			}else{
+				System.out.println("erro: o numero de descritores selecionados diferente de 2");
+				return false;
+			}
+		}else{
+			System.out.println("erro: nao selecionou distancia de matrix de coocorrencia");
+			return false;
+		}
+	}
 
 	
 	public FeaturesSelectorAndFunctions(){
 		super();
-
-		selectedFeatures = new ArrayList<>();
-		angle = 0;
 
 		
 		this.setSpacing(10);
@@ -58,15 +70,15 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				ArrayList<ArrayList<Mat>> a = FileManager.readTrainFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/train.txt"));
-				Coach.means = Coach.matToMeans(a);
-				
-				int i=0;
-				while(i<4){
-					System.out.println("A media da class "+i + " e " + Coach.means[i][0] + " : " +Coach.means[i][1] );
-					i++;
-				}
-//				findBestParameters();
+//				ArrayList<ArrayList<Mat>> a = FileManager.readTrainFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/train.txt"));
+//				Coach.means = Coach.matToMeans(a);
+//				
+//				int i=0;
+//				while(i<4){
+//					System.out.println("A media da class "+i + " e " + Coach.means[i][0] + " : " +Coach.means[i][1] );
+//					i++;
+//				}
+				findBestParameters();
 			}
 			//2 : 0 : 2
 		});
@@ -77,14 +89,12 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				System.out.println(Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt")));
+				System.out.println(Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"),0)[0]);
 				
 			}
 		});
 		
 		this.getChildren().addAll(addRadioButtom(),addCheckBox(),b,b2);
-		
-		
 	}
 	
 	
@@ -101,16 +111,16 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			selectedFeatures.clear();
 			selectedFeatures.add(0);
 			selectedFeatures.add(1);
-			
+			System.out.println("hello world");
 			Coach.means = Coach.matToMeans(images);
-			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"),0)[0];
 			if(best < accuracy){
 				best = accuracy;
 				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
 				System.out.println(res);
 			}
 			
-			if(best == 0.90) return res;
+			 
 			
 			
 			selectedFeatures.clear();
@@ -118,14 +128,14 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			selectedFeatures.add(2);
 			
 			Coach.means = Coach.matToMeans(images);
-			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"),0)[0];
 			if(best < accuracy){
 				best = accuracy;
 				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
 				System.out.println(res);
 			}
 			
-			if(best == 0.90) return res;
+			 
 			
 			
 			selectedFeatures.clear();
@@ -133,14 +143,14 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			selectedFeatures.add(3);
 			
 			Coach.means = Coach.matToMeans(images);
-			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"),0)[0];
 			if(best < accuracy){
 				best = accuracy;
 				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
 				System.out.println(res);
 			}
 			
-			if(best == 0.90) return res;
+			 
 			
 			
 			selectedFeatures.clear();
@@ -148,14 +158,14 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			selectedFeatures.add(2);
 			
 			Coach.means = Coach.matToMeans(images);
-			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"),0)[0];
 			if(best < accuracy){
 				best = accuracy;
 				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
 				System.out.println(res);
 			}
 			
-			if(best == 0.90) return res;
+			 
 			
 			
 			selectedFeatures.clear();
@@ -163,14 +173,14 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			selectedFeatures.add(3);
 			
 			Coach.means = Coach.matToMeans(images);
-			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"),0)[0];
 			if(best < accuracy){
 				best = accuracy;
 				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
 				System.out.println(res);
 			}
 			
-			if(best == 0.90) return res;
+			 
 			
 			
 			selectedFeatures.clear();
@@ -178,7 +188,7 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			selectedFeatures.add(3);
 			
 			Coach.means = Coach.matToMeans(images);
-			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"),0)[0];
 			if(best < accuracy){
 				best = accuracy;
 				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
@@ -187,7 +197,7 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			System.out.println("best accuracy: " + best);
 			System.out.println("best accuracy: " + res);
 			
-			if(best == 0.90) return res;
+			 
 			
 			i++;
 		}

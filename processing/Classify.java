@@ -8,26 +8,34 @@ import gui.FeaturesSelectorAndFunctions;
 
 public class Classify {
 
-	
+
+	/**
+	 * metodo principal
+	 * recebe um objeto Mat de uma imagem e classificar usando distancia euclidiana
+	 * 
+	 * */
 	public static int classify_euclidiana(Mat mat){
 
 		int res = -1;
-		ArrayList<Integer> selectedFeatures_tmp = FeaturesSelectorAndFunctions.selectedFeatures;
-		int angle_tmp = FeaturesSelectorAndFunctions.angle;
 		
-		if(Coach.means != null && selectedFeatures_tmp != null && angle_tmp >0 && selectedFeatures_tmp.size() == 2){
+		if(Coach.isMeansReady() && FeaturesSelectorAndFunctions.isFeaturesAndAngleReady()){
 			
-			CoOccurrenceMatrix com = new CoOccurrenceMatrix(angle_tmp, mat);
-			res = classify_euclidiana(com.getFeatures(selectedFeatures_tmp));
+			CoOccurrenceMatrix com = new CoOccurrenceMatrix(FeaturesSelectorAndFunctions.angle, mat);
+			res = classify_euclidiana(com.getFeatures(FeaturesSelectorAndFunctions.selectedFeatures));
+			
 		}
 		return res;
 	}
+	
+	
+	
+	
 	/**
-	 * 
-	 * classificar usando distancia euclidiana
+	 * metodo aulixiar
+	 * recebe um double[] de descritores da imagem e classificar usando distancia euclidiana
 	 * 
 	 * */
-	public static int classify_euclidiana(double[] x){
+	private static int classify_euclidiana(double[] x){
 		
 		int i=0, idx = 0;
 		double menor = 0.0;
@@ -44,30 +52,39 @@ public class Classify {
 	}
 
 	
+	
+	/**
+	 * metodo principal
+	 * 
+	 * recebe um objeto Mat de uma imagem e classificar usando distancia Mahalanobis
+	 * 
+	 * */
 	public static int classify_mahalanobis(Mat mat){
 
 		int res = -1;
-		ArrayList<Integer> selectedFeatures_tmp = FeaturesSelectorAndFunctions.selectedFeatures;
-		int angle_tmp = FeaturesSelectorAndFunctions.angle;
 		
-		if(Coach.means != null && selectedFeatures_tmp != null && angle_tmp >0 && selectedFeatures_tmp.size() == 2){
+		if(Coach.isMeansAndIncOfCovarReady() && FeaturesSelectorAndFunctions.isFeaturesAndAngleReady()){
 			
-			CoOccurrenceMatrix com = new CoOccurrenceMatrix(angle_tmp, mat);
-			res = classify_mahalanobis((com.getFeatures(selectedFeatures_tmp)));
+			CoOccurrenceMatrix com = new CoOccurrenceMatrix(FeaturesSelectorAndFunctions.angle, mat);
+			res = classify_mahalanobis((com.getFeatures(FeaturesSelectorAndFunctions.selectedFeatures)));
+		
 		}
 		return res;
 	}
 	
+	
+	
 	/**
-	 * 
-	 * classificar usando distancia Mahalanobis
+	 * metodo auxiliar
+	 * recebe um double[] de descritores da imagem e classificar usando distancia Mahalanobis
 	 * 
 	 * */
-	public static int classify_mahalanobis(double[] x){
+	private static int classify_mahalanobis(double[] x){
 		
 		int i=0, idx = 0;
 		double menor = 0.0;
 		while(i<Coach.means.length){
+			
 			double distance = Test.Mahalanobis(x, Coach.means[i], Coach.invOfCovar[i]);
 			if(i==0) menor = distance;
 			if(distance < menor){
