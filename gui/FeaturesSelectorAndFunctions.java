@@ -34,7 +34,7 @@ public class FeaturesSelectorAndFunctions extends HBox {
 
 	
 	public static int angle;
-	
+	private final int[] ANGLE = {1,2,4,8,16};
 	
 	
 
@@ -59,14 +59,16 @@ public class FeaturesSelectorAndFunctions extends HBox {
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				ArrayList<ArrayList<Mat>> a = FileManager.readTrainFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/train.txt"));
-				Test.means = Coach.matToCOM(a);
+				Coach.means = Coach.matToMeans(a);
 				
 				int i=0;
 				while(i<4){
-					System.out.println("A media da class "+i + " e " + Test.means[i][0] + " : " +Test.means[i][1] );
+					System.out.println("A media da class "+i + " e " + Coach.means[i][0] + " : " +Coach.means[i][1] );
 					i++;
 				}
+//				findBestParameters();
 			}
+			//2 : 0 : 2
 		});
 		
 		Button b2 = new Button("Test");
@@ -83,6 +85,114 @@ public class FeaturesSelectorAndFunctions extends HBox {
 		this.getChildren().addAll(addRadioButtom(),addCheckBox(),b,b2);
 		
 		
+	}
+	
+	
+	private String findBestParameters(){
+		double best = 0;
+		String res ="";
+		ArrayList<ArrayList<Mat>> images = FileManager.readTrainFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/train.txt"));
+		int i=0;
+		double accuracy=0.0;
+		
+		while(i<5){
+			
+			angle = ANGLE[i];
+			selectedFeatures.clear();
+			selectedFeatures.add(0);
+			selectedFeatures.add(1);
+			
+			Coach.means = Coach.matToMeans(images);
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			if(best < accuracy){
+				best = accuracy;
+				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
+				System.out.println(res);
+			}
+			
+			if(best == 0.90) return res;
+			
+			
+			selectedFeatures.clear();
+			selectedFeatures.add(0);
+			selectedFeatures.add(2);
+			
+			Coach.means = Coach.matToMeans(images);
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			if(best < accuracy){
+				best = accuracy;
+				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
+				System.out.println(res);
+			}
+			
+			if(best == 0.90) return res;
+			
+			
+			selectedFeatures.clear();
+			selectedFeatures.add(0);
+			selectedFeatures.add(3);
+			
+			Coach.means = Coach.matToMeans(images);
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			if(best < accuracy){
+				best = accuracy;
+				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
+				System.out.println(res);
+			}
+			
+			if(best == 0.90) return res;
+			
+			
+			selectedFeatures.clear();
+			selectedFeatures.add(1);
+			selectedFeatures.add(2);
+			
+			Coach.means = Coach.matToMeans(images);
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			if(best < accuracy){
+				best = accuracy;
+				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
+				System.out.println(res);
+			}
+			
+			if(best == 0.90) return res;
+			
+			
+			selectedFeatures.clear();
+			selectedFeatures.add(1);
+			selectedFeatures.add(3);
+			
+			Coach.means = Coach.matToMeans(images);
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			if(best < accuracy){
+				best = accuracy;
+				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
+				System.out.println(res);
+			}
+			
+			if(best == 0.90) return res;
+			
+			
+			selectedFeatures.clear();
+			selectedFeatures.add(2);
+			selectedFeatures.add(3);
+			
+			Coach.means = Coach.matToMeans(images);
+			accuracy =Test.readTestFile(new File("/Users/chendehua/Documents/workspace/tp_PID/test_files/test.txt"));
+			if(best < accuracy){
+				best = accuracy;
+				res = angle +" : "+ selectedFeatures.get(0) +" : "+selectedFeatures.get(1);
+				System.out.println(res);
+			}
+			System.out.println("best accuracy: " + best);
+			System.out.println("best accuracy: " + res);
+			
+			if(best == 0.90) return res;
+			
+			i++;
+		}
+		
+		return res;
 	}
 	
 	private VBox addRadioButtom(){

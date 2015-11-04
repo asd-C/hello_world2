@@ -2,17 +2,25 @@ package processing;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.correlation.Covariance;
 import org.opencv.core.Mat;
 import gui.*;
 
 public class Coach {
+
+	public static double[][] means = null;
+	public static double[][][] invOfCovar = null;
 	
-	public static double[][] matToCOM(ArrayList<ArrayList<Mat>> images){
+	
+	public static double[][] matToMeans(ArrayList<ArrayList<Mat>> images){
 		ArrayList<Integer> selectedFeatures_tmp = FeaturesSelectorAndFunctions.selectedFeatures;
 		int angle_tmp = FeaturesSelectorAndFunctions.angle;
 		int classes = images.size();
 		int	size_class = images.get(0).size();
-		double[][] res = new double[classes][];
+		means = new double[classes][];
+		invOfCovar = new double[classes][][];
 
 		double[][][] arrayOfImages = new double[classes][size_class][2];
 		
@@ -31,7 +39,8 @@ public class Coach {
 				}
 				i=0;
 				while(i<classes){
-					res[i] = coach(arrayOfImages[i]);
+					Coach.means[i] = coach(arrayOfImages[i]);
+					Coach.invOfCovar[i] = invOfCovar(arrayOfImages[i]);
 					i++;
 				}
 			
@@ -43,9 +52,13 @@ public class Coach {
 		}
 		
 		
-		return res;
+		return means;
 	}
 	
+	
+	public static double[][] invOfCovar(double [][] input){
+		return MatrixUtils.inverse(new Covariance(input).getCovarianceMatrix()).getData();
+	}
 	
 	
 	/**
@@ -81,29 +94,19 @@ public class Coach {
 		return res;
 	}
 	
-	public static void main(String[] args){
-		double[][] x = new double[][]{
-			{1,2},
-			{2,1},
-			{3,3},
-			{2,2}
-		};
-		
-		double[] y = coach(x);
-		
-		int i=0;
-		System.out.print("o valor medio: ");
-		while(i<y.length){
-			System.out.print(y[i]+"\t");
-			i++;
+	
+	public static boolean isMeansAndCovarReady(){
+		if(Coach.means != null && Coach.invOfCovar != null){
+			if(Coach.means.length != 0 && Coach.invOfCovar.length != 0){
+				return true;
+			}else{
+				System.out.println("Means zero or Covar zero");
+				return false;
+			}
+		}else{
+			System.out.println("Means null or Covar null");
+			return false;
 		}
-		System.out.println();
-		
-		double[] example = new double[]{
-			10,2
-		};
-		
-		System.out.println("distancia euclidiana: " + Test.Euclideana(y, example));
 	}
 	
 }

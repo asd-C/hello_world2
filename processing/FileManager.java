@@ -37,7 +37,7 @@ public class FileManager {
 			while(x < size)
 			{
 				String a = br.readLine();
-				System.out.println("file read: " + a);
+				//System.out.println("file read: " + a);
 			    f = new File(a);
 			    c = Integer.parseInt(br.readLine());
 			    listImages.get(c).add(ImageManager.file2Mat(f));

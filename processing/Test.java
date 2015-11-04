@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -13,7 +17,6 @@ import gui.FeaturesSelectorAndFunctions;
 
 public class Test {
 
-	public static double[][] means;
 	
 	public static double readTestFile(File file){
 		
@@ -26,7 +29,7 @@ public class Test {
 		ArrayList<Integer> selectedFeatures_tmp = FeaturesSelectorAndFunctions.selectedFeatures;
 		int angle_tmp = FeaturesSelectorAndFunctions.angle;
 		
-		if(means != null && selectedFeatures_tmp != null && angle_tmp >0 && selectedFeatures_tmp.size() == 2){
+		if(Coach.means != null && selectedFeatures_tmp != null && angle_tmp >0 && selectedFeatures_tmp.size() == 2){
 			try(BufferedReader br = new BufferedReader(new FileReader(file)))
 			{
 				
@@ -35,11 +38,10 @@ public class Test {
 				while(x < size)
 				{
 					String a = br.readLine();
-					System.out.println("file read: " + a);
+					//System.out.println("file read: " + a);
 				    f = new File(a);
 				    c = Integer.parseInt(br.readLine());
-				    CoOccurrenceMatrix com = new CoOccurrenceMatrix(angle_tmp, ImageManager.file2Mat(f));
-				    int var = Classify.classify_euclidiana(com.getFeatures(selectedFeatures_tmp), means) ;
+				    int var = Classify.classify_euclidiana(ImageManager.file2Mat(f));
 				    if(var == c){
 				    	counter++;
 				    }
@@ -83,13 +85,21 @@ public class Test {
 	 * a ser feita
 	 * 
 	 * */
-	public static double Mahalanobis(double[] x, double[] mean){
-
-		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
-		Mat a = Mat.ones(10, 10, CvType.CV_16S);
+	public static double Mahalanobis(double[] x, double[] mean, double[][] covariance){
+		double res = 0.0;
+		
+		//if(Coach.isMeansAndCovarReady()){
+			Array2DRowRealMatrix x_v = new Array2DRowRealMatrix(new double[][]{x}),
+					mean_v = new Array2DRowRealMatrix(new double[][]{mean});
+			Array2DRowRealMatrix tmp = x_v.subtract(mean_v);
+			RealMatrix covar_m = MatrixUtils.createRealMatrix(covariance);
+			RealMatrix tmp2 = tmp.multiply(covar_m);
+			tmp2 = tmp2.multiply(tmp.transpose());
+			res = Math.sqrt(tmp2.getEntry(0, 0));
+		//}
 		
 		
-		return 0.0;
+		return res;
 	}
 	
 	
