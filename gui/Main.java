@@ -1,7 +1,10 @@
 package gui;
 
 
+import java.io.File;
+
 import org.opencv.core.Core;
+import org.opencv.core.Mat;
 
 import javafx.application.Application;
 import javafx.geometry.Orientation;
@@ -9,12 +12,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import processing.ImageManager;
 
 
 public class Main extends Application{
 
-	private MessagePane messagePane;
-	private ImagePane imagePane1, imagePane2;
+	public static MessagePane messagePane;
+	public static ImagePane imagePane1, imagePane2;
 	private MyMenuBar menuBar;
 	private FeaturesSelectorAndFunctions featuresSelectorAndFunctions;
 	
@@ -39,6 +43,12 @@ public class Main extends Application{
 		imagePane2 						= new ImagePane();
 		menuBar 						= new MyMenuBar();
 		featuresSelectorAndFunctions 	= new FeaturesSelectorAndFunctions();
+		
+		
+		
+		File file = new File("/Users/chendehua/Downloads/rois/d15.png");
+		imagePane1.loadImage(ImageManager.file2Mat(file));
+		
 		
 		
 		stage = primaryStage;

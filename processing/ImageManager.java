@@ -70,11 +70,11 @@ public class ImageManager
 	 * Converte objeto Mat para objeto Image (para mostrar no ImageView)
 	 * 
 	 * */
-	public static Image mat2Image(Mat frame){
+	public static Image mat2Image(Mat image){
         // create a temporary buffer
         MatOfByte buffer = new MatOfByte();
         // encode the frame in the buffer, according to the PNG format
-        Imgcodecs.imencode(".png", frame, buffer);
+        Imgcodecs.imencode(".png", image, buffer);
         // build and return an Image created from the image encoded in the
         // buffer
         return new Image(new ByteArrayInputStream(buffer.toArray()));

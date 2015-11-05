@@ -124,8 +124,8 @@ public class CoOccurrenceMatrix {
 
 		double elem = 0.0;
 		
-		while(i<255){
-			while(j<255){
+		while(i<glmc.length){
+			while(j<glmc[0].length){
 				elem = (double)glmc[i][j]/total;
 				energy 			+= (Math.pow(elem, 2));
 				entropy 		-= (elem == 0) ? 0 : (elem * Math.log(elem));
